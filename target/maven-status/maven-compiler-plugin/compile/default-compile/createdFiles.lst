@@ -1,0 +1,5 @@
+orm\Campaign.class
+endpoints\CampaignEndPoint.class
+META-INF\panache-archive.marker
+orm\ContentProvider.class
+orm\Prompt.class
