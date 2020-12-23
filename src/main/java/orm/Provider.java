@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "ContentProvider")
-public class ContentProvider extends PanacheEntity {
+@Table(name = "provider")
+public class Provider extends PanacheEntity {
     @Column(nullable = false)
     public String name;
 }

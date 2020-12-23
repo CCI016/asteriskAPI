@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "Prompt")
+@Table(name = "prompt")
 public class Prompt extends PanacheEntity {
     @Column(nullable = false)
     public String originalName;

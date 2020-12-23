@@ -10,8 +10,9 @@ import java.net.InetAddress;
 @Entity
 @Table(name = "ari_settings")
 public class AriSettings extends PanacheEntity {
+
     @Column(nullable = false, name = "server_IP")
-    public InetAddress ariIP;
+    public String ariIP;
 
     @Column(nullable = false, name = "user")
     public String user;

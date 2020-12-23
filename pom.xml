@@ -2,7 +2,7 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>learn</groupId>
+  <groupId>asteriskAPI</groupId>
   <artifactId>learn</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <properties>
@@ -43,6 +43,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-quartz</artifactId>
     </dependency>
+
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-scheduler</artifactId>
@@ -54,6 +55,11 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.loway.oss.ari4java</groupId>
+      <artifactId>ari4java</artifactId>
+      <version>0.5.1</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -70,6 +76,12 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>local-repo</id>
+      <url>file://${project.basedir}/mvn_repo</url>
+    </repository>
+  </repositories>
   <build>
     <plugins>
       <plugin>

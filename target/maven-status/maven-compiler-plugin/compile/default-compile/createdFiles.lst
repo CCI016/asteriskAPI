@@ -1,5 +1,7 @@
-orm\Campaign.class
-endpoints\CampaignEndPoint.class
+endpoints\CandyEndpoint.class
+ari\AriManager.class
 META-INF\panache-archive.marker
-orm\ContentProvider.class
+orm\Candy.class
 orm\Prompt.class
+orm\Provider.class
+orm\AriSettings.class
