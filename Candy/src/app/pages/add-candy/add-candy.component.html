@@ -1,0 +1,18 @@
+
+<nz-space [nzSize] = "20" [nzDirection] = "horizontal" class = "spacer">
+
+    <nz-space-item class = "name-field">
+        <span>Candy Name</span>
+        <input nz-input placeholder="Enter candy name" [(ngModel)]="value" />
+    </nz-space-item>  
+
+    <nz-space-item class = "supplier-area">
+        <span>Enter supplier name</span>
+        <input nz-input placeholder="Enter supplier name" [(ngModel)]="value" />
+    </nz-space-item>  
+    
+    <nz-space-item class = "upload-area">
+        <span>Upload promt</span>
+        <app-upload-component></app-upload-component>
+    </nz-space-item>
+</nz-space>

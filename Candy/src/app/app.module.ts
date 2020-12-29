@@ -1,6 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { CandyComponent } from './pages/candy/candy.component';
+import { AddCandyComponent } from './pages/add-candy/add-candy.component';
+import { UploadComponentComponent } from './componenets/upload-component/upload-component.component';
+import { SearchAreaComponent } from './componenets/search-area/search-area.component';
+import { SupplierComponent } from './componenets/supplier/supplier.component';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -13,12 +19,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+
+import { NzCascaderModule } from 'ng-zorro-antd/cascader';
+import { NzTableModule } from 'ng-zorro-antd/table';
+
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SearchAreaComponent,
+    SupplierComponent,
+    CandyComponent,
+    AddCandyComponent,
+    UploadComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +47,12 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     IconsProviderModule,
     NzLayoutModule,
-    NzMenuModule
+    NzMenuModule,
+    NzInputModule,
+    NzButtonModule,
+    NzCascaderModule,
+    NzTableModule,
+    NzSpaceModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

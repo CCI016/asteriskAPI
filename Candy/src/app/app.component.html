@@ -5,12 +5,18 @@
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
-    <div class="sidebar-logo">
+    <div class="sidebar-logo">  
+      <!-- Aici va trebui sa faci huineaua cand siderul se face mai mic pai sa nu scrie nihuia -->
       <h1>Candy Shop</h1>
       <h3>Unifun</h3>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Candy" nzIcon="sound"></li>
+      <li nz-menu-item>
+        <a routerLink="/candy">
+          <i nz-icon nzType="sound"></i>
+          <span>Candy</span>
+        </a>
+      </li>
     </ul>
   </nz-sider>
   <nz-layout>

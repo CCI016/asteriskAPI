@@ -1,0 +1,13 @@
+.spacer{
+    width: 100%
+}
+
+.name-field, .supplier-area  {
+    float:left;
+    margin-right: 6%;
+    width: 27%;
+}
+
+.upload-area {
+    float:left;
+}

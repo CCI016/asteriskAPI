@@ -1,0 +1,27 @@
+<nz-space nzDirection="vertical" [nzSize]="20" class="space">
+    <nz-space-item><app-search-area class = "search-area"></app-search-area>
+    <app-supplier class = "supplier-select"></app-supplier>
+    <a routerLink="add" class = "add-candy"><button nz-button nzType="primary" nzGhost>Add new candy</button></a></nz-space-item>
+
+    <nz-space-item>
+        <nz-table #basicTable>
+            <thead>
+                <tr>
+                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="true">Name</th>
+                    <th nzAlign="center" class="reduced-padding" >File Name</th>
+                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="true">Listened</th>
+                    <th nzAlign="center" class="reduced-padding" >Supplier</th>
+                    <th nzAlign="center" class="reduced-padding" >Actions</th>
+                </tr>   
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                <td>{{data.name}}</td>
+                <td>{{data.age}}</td>
+                <td>{{data.address}}</td>
+                <td></td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-space-item>
+</nz-space>
