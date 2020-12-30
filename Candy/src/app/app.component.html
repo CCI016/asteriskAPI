@@ -5,10 +5,9 @@
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
-    <div class="sidebar-logo">  
+    <div  [ngClass]="{ 'sidebar-logo' : !isCollapsed }">  
       <!-- Aici va trebui sa faci huineaua cand siderul se face mai mic pai sa nu scrie nihuia -->
-      <h1>Candy Shop</h1>
-      <h3>Unifun</h3>
+      <span class="sidebar-text" *ngIf="!isCollapsed">Candy Shop<br>Unifun</span>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item>
@@ -31,6 +30,14 @@
       </div>
     </nz-header>
     <nz-content>
+      <div nz-row>
+        <div nz-col nzSpan="12">
+        </div>
+        <div nz-col nzSpan="12">
+          <span class="timer">Time: HH:MM:SS</span>
+        </div>
+      </div>
+
       <div class="inner-content">
         <router-outlet></router-outlet>
       </div>

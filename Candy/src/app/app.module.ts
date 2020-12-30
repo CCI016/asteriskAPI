@@ -21,10 +21,12 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 import { NzCascaderModule } from 'ng-zorro-antd/cascader';
 import { NzTableModule } from 'ng-zorro-antd/table';
-
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 
@@ -52,7 +54,10 @@ registerLocaleData(en);
     NzButtonModule,
     NzCascaderModule,
     NzTableModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzUploadModule,
+    NzSpinModule,
+    NzGridModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
