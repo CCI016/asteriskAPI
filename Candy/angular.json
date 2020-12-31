@@ -67,7 +67,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Candy:build"
+            "browserTarget": "Candy:build",
+
+            "proxyConfig": "src/proxy.conf.json"
+            
           },
           "configurations": {
             "production": {
