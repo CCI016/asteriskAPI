@@ -16,4 +16,7 @@ public class Prompt extends PanacheEntity {
 
     @Column(nullable = false)
     public String ariName;
+
+    @Column(nullable = false)
+    public int numberOfPlays;
 }
