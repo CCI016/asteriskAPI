@@ -1,31 +1,85 @@
-<div>
-    <!-- {{lol}} -->
-</div>
-
 <nz-space nzDirection="vertical" [nzSize]="20" class="space">
-    <nz-space-item><app-search-area class = "search-area"></app-search-area>
-    <app-supplier class = "supplier-select"></app-supplier>
-    <a routerLink="add" class = "add-candy"><button nz-button nzType="primary" nzGhost>Add new candy</button></a></nz-space-item>
+    <nz-space-item>
+        <div class = "search-area">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Find by name" type = "text" #candyName/>
+              </nz-input-group>
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search" (click) = "getNewData(selectedService, candyName.value)" ></i></button>
+            </ng-template>
+        </div>
+
+        <div class="supplier-select">
+            <nz-select [(ngModel)]="selectedService" (ngModelChange)="getNewData(selectedService, candyName.value)" nzAllowClear nzPlaceHolder="Provider">
+                <nz-option *ngFor="let option of providers" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+            </nz-select>
+        </div>
+        
+        <a routerLink="add" class = "add-candy"><button nz-button nzType="primary" nzGhost>Add new candy</button></a>
+    </nz-space-item>
 
     <nz-space-item>
-        <nz-table #basicTable>
+        <nz-table #basicTable [nzData] = "candy">
             <thead>
                 <tr>
-                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="true">Name</th>
+                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="sortName">Name</th>
                     <th nzAlign="center" class="reduced-padding" >File Name</th>
-                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="true">Listened</th>
+                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="sortListened">Listened</th>
                     <th nzAlign="center" class="reduced-padding" >Supplier</th>
                     <th nzAlign="center" class="reduced-padding" >Actions</th>
                 </tr>   
             </thead>
             <tbody>
                 <tr *ngFor="let data of basicTable.data">
-                <td>{{data.name}}</td>
-                <td>{{data.age}}</td>
-                <td>{{data.address}}</td>
-                <td></td>
+                <td nzAlign = "center" >{{data.name}}</td>
+                <td nzAlign = "center" >{{data.prompt.originalName}}</td>
+                <td nzAlign = "center" >{{data.prompt.numberOfPlays}}</td>
+                <td nzAlign = "center" >{{data.provider.name}}</td>
+                <td nzAlign = "center" >
+                    <div nz-space nzAlign="center" class="space-align-block">
+                        <nz-space-item>
+                            <button nz-button nzType="primary" (click)="edit(data)">
+                                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                            </button>
+                        </nz-space-item>
+                        <nz-space-item>
+                            <button nz-button nzType="primary">
+                                <i nz-icon nzType="delete" nzTheme="fill"></i>
+                            </button>
+                        </nz-space-item>
+                      </div>
+                </td>
                 </tr>
             </tbody>
         </nz-table>
     </nz-space-item>
 </nz-space>
+
+<nz-drawer  [nzHeight] = "150" [nzClosable]="false" [nzVisible]="visible"  nzPlacement="top" nzTitle="{{editedCandy.name}}" (nzOnClose)="close()">
+    <div nz-row>
+        <div nz-col nzSpan="5" nzAlign="bottom">
+            <span><b>New Name:<br></b></span>
+            <input type="text" nz-input [(ngModel)]="previuosName" />
+        </div>
+        <div nz-col nzSpan="5" nzOffset="1" nzAlign="bottom">
+            <span><br></span>
+            
+            <nz-select [ngModel]="previousProvider" >
+                <nz-option *ngFor="let option of providers" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+            </nz-select>
+
+        </div>
+        <div nz-col nzSpan="1" nzOffset="10" nzAlign="bottom">
+            <span><br></span>
+            <button nz-button nzType="primary" (click)="submitEdit(previousName, previousProvider, editedCandy.id)">
+                Submit
+            </button>
+        </div>
+        <div nz-col nzSpan="1" nzOffset="1" nzAlign="bottom">
+            <span><br></span>
+            <button nz-button nzType="primary" (click) = "close()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</nz-drawer>

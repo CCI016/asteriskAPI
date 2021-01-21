@@ -10,3 +10,18 @@
 .upload-area {
     float: left;;
 }
+.aaa {
+    float: left;
+}
+
+.input-name {
+    max-width: 20%;
+    float: left;
+    margin-right: 5%;
+}
+
+.suplier-change {
+    width: 20%;
+    float: right;
+    margin-right: 5%;
+}

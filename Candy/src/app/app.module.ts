@@ -4,8 +4,6 @@ import { NgModule } from '@angular/core';
 import { CandyComponent } from './pages/candy/candy.component';
 import { AddCandyComponent } from './pages/add-candy/add-candy.component';
 import { UploadComponentComponent } from './componenets/upload-component/upload-component.component';
-import { SearchAreaComponent } from './componenets/search-area/search-area.component';
-import { SupplierComponent } from './componenets/supplier/supplier.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,7 +20,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 import { NzCascaderModule } from 'ng-zorro-antd/cascader';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -36,8 +35,6 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    SearchAreaComponent,
-    SupplierComponent,
     CandyComponent,
     AddCandyComponent,
     UploadComponentComponent
@@ -60,6 +57,8 @@ registerLocaleData(en);
     NzSpinModule,
     NzGridModule,
     HttpClientModule,
+    NzSelectModule,
+    NzDrawerModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

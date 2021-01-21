@@ -6,12 +6,16 @@ import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import orm.Candy;
 import orm.Provider;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.StringReader;
 import java.util.List;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 @Path("/getCandy")
-//@Produces(MediaType.TEXT_PLAIN)
+@Produces(MediaType.TEXT_PLAIN)
 public class CandyEndpoint {
 
     private final ObjectMapper mapper;
@@ -25,6 +29,13 @@ public class CandyEndpoint {
     public String getAllCampaigns() throws JsonProcessingException {
         List<Candy> candies = Candy.find("isDeleted = 0").list();
         return mapper.writeValueAsString(candies);
+    }
+
+    @GET
+    @Path("providers")
+    public String getAllProvider() throws JsonProcessingException {
+        List<Provider> providers = Provider.findAll().list();
+        return mapper.writeValueAsString(providers);
     }
 
     @GET
@@ -47,5 +58,29 @@ public class CandyEndpoint {
         }
 
         return mapper.writeValueAsString(candies);
+    }
+
+    @POST
+    @Path("updateCandy")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public String updateCandy(String body) throws JsonProcessingException {
+        JsonObject json = Json.createReader(new StringReader(body)).readObject();
+        Candy candy;
+        if (json.containsKey("id")) {
+            candy = Candy.findById(json.getJsonNumber("id").longValue());
+        } else {
+            return null;
+        }
+        if (json.containsKey("name")) {
+            if (!json.getString("name").equals("")) {
+                candy.name = json.getString("name");
+            }
+        }
+        if (json.containsKey("provider")) {
+            candy.provider = Provider.findById(json.getJsonNumber("provider").longValue());
+        }
+        candy.persist();
+        return mapper.writeValueAsString(candy);
     }
 }

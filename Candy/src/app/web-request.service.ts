@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Candy } from './pages/models/candy';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class WebRequestService {
   readonly ROOT_URL =  'http://localhost:8080';
 
   constructor(private http: HttpClient) {
   }
 
-  getInfo(uri : string) {
-    return this.http.get(`${this.ROOT_URL}/${uri}`).toPromise();
+  getData(uri : string) {
+    return this.http.get(`${this.ROOT_URL}/${uri}`);
   }
 
-//   "/": {
-//     "target": "http://localhost:8080",
-//     "secure": false,
-//     "ws": true
-// }
+  postData(uri : string, t : any) : Observable<any> {
+    return this.http.post(`${this.ROOT_URL}/${uri}`, t);
+  }
+
 }
