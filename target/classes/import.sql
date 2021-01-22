@@ -8,7 +8,8 @@ INSERT INTO `provider`
     (`id`, `name`)
 VALUES
     ('1', 'Bucuria'),
-    ('2', 'Rochen');
+    ('2', 'Rochen'),
+    ('3', 'Ferrero');
 
 INSERT INTO `prompt`
     (`id`, `ariName`, `numberOfPlays`, `originalName`)
@@ -20,4 +21,6 @@ INSERT INTO `candy`
     (`id`, `is_deleted`, `name`, `prompt`, `provider`)
 VALUES
     ('1', b'0', 'DoReMi', '1', '1'),
-    ('2', b'0', 'Albinuta', '2', '2');
+    ('2', b'0', 'Albinuta', '2', '2'),
+    ('3', b'0', 'Rafaello', '1', '3'),
+    ('4', b'0', 'Rocher', '2', '3');

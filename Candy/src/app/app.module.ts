@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { CandyComponent } from './pages/candy/candy.component';
 import { AddCandyComponent } from './pages/add-candy/add-candy.component';
-import { UploadComponentComponent } from './componenets/upload-component/upload-component.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +21,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 import { NzCascaderModule } from 'ng-zorro-antd/cascader';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -37,7 +38,6 @@ registerLocaleData(en);
     AppComponent,
     CandyComponent,
     AddCandyComponent,
-    UploadComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +58,9 @@ registerLocaleData(en);
     NzGridModule,
     HttpClientModule,
     NzSelectModule,
-    NzDrawerModule
+    NzDrawerModule,
+    NzModalModule,
+    NzNotificationModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

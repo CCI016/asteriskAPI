@@ -1,22 +1,40 @@
-<nz-space [nzSize] = "50" class = "spacer">
-    <!-- [nzDirection] = "horizontal" -->
+<div nz-row>
+    <div nz-col nzSpan="3" nzOffset="1" nzAlign="bottom">
+        <span><b>Candy Name</b></span>
+        <input [(ngModel)]="candyName" nz-input placeholder="Enter candy name" />
+    </div>
 
-    <nz-space-item class = "name-field">
-        <span>Candy Name</span>
-        <input nz-input placeholder="Enter candy name" /> 
-        <!-- [(ngModel)]="value" -->
-    </nz-space-item>  
+    <div nz-col nzSpan="2" nzOffset="1" nzAlign="bottom">
+        <span><b>Select Provider</b></span>
+        <nz-select [(ngModel)]="selectedProvider" nzAllowClear nzPlaceHolder="Select provider">
+            <nz-option *ngFor="let option of providers" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+        </nz-select>
+    </div>
 
-    <nz-space-item class = "supplier-area">
-        <span>Enter supplier name</span>
-        <input nz-input placeholder="Enter supplier name" />
-        <!-- [(ngModel)]="value" -->
-    </nz-space-item>  
-    
-    <nz-space-item class = "upload-area">
-        <span>Upload promt</span>
+    <div nz-col nzSpan="0.5" nzOffset="1" nzAlign="bottom">
+        <span><b>Or</b></span>
+    </div>
+
+    <div nz-col nzSpan="3" nzOffset="1" nzAlign="bottom">
+        <span><b>Create new provider </b></span>
+        <input [(ngModel)]="providerName"  nz-input placeholder="Enter provider name" />
+    </div>
+
+    <div nz-col nzSpan="2" nzOffset="1" nzAlign="bottom">
+        <span><b>Select Prompt</b></span>
+        <nz-select [(ngModel)]="selectedPrompt" nzAllowClear nzPlaceHolder="Select provider">
+            <nz-option *ngFor="let option of propmpts" [nzValue]="option.id" [nzLabel]="option.originalName"></nz-option>
+        </nz-select>
+    </div>
+
+    <div nz-col nzSpan="3" nzOffset="1" nzAlign="bottom">
+        <span><b>Upload promt</b></span>
         <br>
         <button nz-button><i nz-icon nzType="upload"></i>Click to Upload</button>
-        <!-- <app-upload-component></app-upload-component> -->
-    </nz-space-item>
-</nz-space>
+    </div>
+
+    <div nz-col nzSpan="2" nzOffset="2" nzAlign="bottom">
+        <br>
+        <button (click)="addCandy()" nz-button nzType="primary">Add Candy</button>
+    </div>
+</div>

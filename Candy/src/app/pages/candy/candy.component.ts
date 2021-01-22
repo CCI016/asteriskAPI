@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WebRequestService } from 'src/app/web-request.service';
 import { Candy } from '../models/candy';
 import { Provider } from '../models/provider';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-candy',
@@ -15,16 +17,27 @@ export class CandyComponent implements OnInit {
   providers : Provider[];
   editedCandy : Candy;
   visible : boolean;
-  previousProvider : number;
-  previuosName : string;
+  previousProvider : Provider;
+  previousName : string;
+  selectedService : number;
+  showDelete : boolean;
+  selectedSearchName : string;
+  itemsOnPage : number;
 
 
-  constructor(private webService : WebRequestService) {
+  constructor(
+    private webService : WebRequestService,
+    private modal: NzModalService,
+    private notification: NzNotificationService,) {
     this.editedCandy = {} as Candy;
     this.visible = false;
+    this.showDelete = false;
     this.candy = [];
     this.providers = [];
+    this.previousProvider  = {} as Provider;
     this.request = "getCandy/list";
+    this.selectedSearchName = "";
+    this.itemsOnPage = 10;
   }
 
   ngOnInit(): void {
@@ -37,7 +50,7 @@ export class CandyComponent implements OnInit {
     this.candy = [];
     this.request = "getCandy/list";
     this.webService.getData(this.request).subscribe(data => {
-      this.candy = <Candy[]> data;
+     this.candy = <Candy[]> data;
     });
   }
 
@@ -72,27 +85,65 @@ export class CandyComponent implements OnInit {
   }
 
   close() {
+    this.showDelete = false;
     this.visible = false;
   }
 
   edit(candyElem : Candy) {
     this.editedCandy = candyElem;
-    this.previousProvider = candyElem.provider.id;
-    this.previuosName = candyElem.name;
-    console.log(this.previuosName);
+    this.previousProvider = candyElem.provider;
+    this.previousName = candyElem.name;
     this.visible = true;
   }
 
   submitEdit(newName : string, newProviderID : number, candyID : number) {
     this.request = "getCandy/updateCandy"
+    var send : {id : number; name : string; provider : number;}
     var status = {} as Candy;
-
-    this.webService.postData(this.request, {id : candyID, name : newName, provider : newProviderID}).subscribe((data) => {
+    send = {id : candyID, name : newName,provider : newProviderID};
+    this.webService.postData(this.request, send).subscribe((data) => {
        status = <Candy> data;
-       this.getAllCandy();});
+       this.getNewData(this.selectedService, this.selectedSearchName);;});
     this.close();
   }
 
+  //Displays the delete module, if the answer is yes he will send the post request and after will display a notification
+  showDeleteModule(candy : Candy) {
+    var status : {isDeleted : boolean};
+    this.request = "getCandy/deleteCandy"
+    this.modal.confirm({
+      nzTitle : "Are you sure?",
+      nzContent : "Candy " + candy.name + " will be deleted!", 
+      nzOkText : "Yes",
+      nzOnOk : () => {
+        this.webService.postData(this.request, candy).subscribe((data) => {
+         status = data;
+         if (data == true) {
+           this.notification.success(
+            'Success',
+            'You succesfully deleted ' + candy.name
+           )
+         } else if (data == false) {
+           this.notification.error(
+             'Error',
+             'An error occured when trying to delete ' + candy.name + ' . Try again later'
+           )
+         }
+         this.getNewData(this.selectedService, this.selectedSearchName);
+        })
+      }
+    });
+  }
+
+
+  checkPagination() : boolean {
+    return true;
+  }
+
+  check() {
+    console.log(this.itemsOnPage);
+  }
+
   sortName = (a: Candy, b: Candy) => a.name.localeCompare(b.name);
-  sortListened = (a : Candy, b : Candy) => b.prompt.numberOfPlays - a.prompt.numberOfPlays; 
+  sortListened = (a : Candy, b : Candy) => a.prompt.numberOfPlays - b.prompt.numberOfPlays; 
 }

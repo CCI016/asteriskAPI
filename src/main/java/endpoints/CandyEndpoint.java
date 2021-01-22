@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import orm.Candy;
+import orm.Prompt;
 import orm.Provider;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.StringReader;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -27,7 +29,7 @@ public class CandyEndpoint {
     @GET
     @Path("list")
     public String getAllCampaigns() throws JsonProcessingException {
-        List<Candy> candies = Candy.find("isDeleted = 0").list();
+        List<Candy> candies = Candy.find("isDeleted = ?1", false).list();
         return mapper.writeValueAsString(candies);
     }
 
@@ -60,6 +62,15 @@ public class CandyEndpoint {
         return mapper.writeValueAsString(candies);
     }
 
+    @GET
+    @Path("prompts")
+    public String getAllPrompts() throws JsonProcessingException {
+        List<Prompt> prompts = Prompt.listAll();
+        return mapper.writeValueAsString(prompts);
+
+    }
+
+
     @POST
     @Path("updateCandy")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -69,6 +80,7 @@ public class CandyEndpoint {
         Candy candy;
         if (json.containsKey("id")) {
             candy = Candy.findById(json.getJsonNumber("id").longValue());
+            System.out.println(candy.id);
         } else {
             return null;
         }
@@ -79,7 +91,51 @@ public class CandyEndpoint {
         }
         if (json.containsKey("provider")) {
             candy.provider = Provider.findById(json.getJsonNumber("provider").longValue());
+            System.out.println(candy.provider.name);
         }
+        candy.persist();
+        return mapper.writeValueAsString(candy);
+    }
+
+    @POST
+    @Path("deleteCandy")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public String deleteCandy(String body) throws JsonProcessingException {
+        JsonObject json = Json.createReader(new StringReader(body)).readObject();
+        Candy candy;
+        if (json.containsKey("id")) {
+            candy = Candy.findById(json.getJsonNumber("id").longValue());
+        } else {
+            return mapper.writeValueAsString("isDeleted: false");
+        }
+        candy.isDeleted = true;
+        candy.persist();
+        return mapper.writeValueAsString(candy.isDeleted);
+    }
+
+    @POST
+    @Path("addCandy")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public String addCandy(String body) throws JsonProcessingException {
+        JsonObject json = Json.createReader(new StringReader(body)).readObject();
+        Candy candy = new Candy();
+        candy.name = json.getString("name");
+
+        if (json.containsKey("providerID")) {
+            candy.provider = Provider.findById(json.getJsonNumber("providerID").longValue());
+        } else {
+            Provider provider = new Provider();
+            provider.name = json.getString("providerName");
+            provider.persist();
+        }
+
+        if (json.containsKey("promptID")) {
+            candy.prompt = Prompt.findById(json.getJsonNumber("promptID").longValue());
+        }
+        System.out.println(candy.id + " " + candy.name + " " + candy.provider + " " + candy.prompt);
+        candy.isDeleted = false;
         candy.persist();
         return mapper.writeValueAsString(candy);
     }
