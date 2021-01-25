@@ -22,7 +22,7 @@
 
     <div nz-col nzSpan="2" nzOffset="1" nzAlign="bottom">
         <span><b>Select Prompt</b></span>
-        <nz-select [(ngModel)]="selectedPrompt" nzAllowClear nzPlaceHolder="Select provider">
+        <nz-select [(ngModel)]="selectedPrompt" nzAllowClear nzPlaceHolder="Select Prompt" (click)="getAllPrompts()">
             <nz-option *ngFor="let option of propmpts" [nzValue]="option.id" [nzLabel]="option.originalName"></nz-option>
         </nz-select>
     </div>
@@ -30,7 +30,13 @@
     <div nz-col nzSpan="3" nzOffset="1" nzAlign="bottom">
         <span><b>Upload promt</b></span>
         <br>
-        <button nz-button><i nz-icon nzType="upload"></i>Click to Upload</button>
+        <nz-upload
+            nzAction="http://localhost:8080/file/upload"
+            nzName="uploadedFile"
+            nzAccept=".gsm,.wav,.mp3"
+        >
+            <button nz-button><i nz-icon nzType="upload"></i>Click to Upload</button>
+        </nz-upload>
     </div>
 
     <div nz-col nzSpan="2" nzOffset="2" nzAlign="bottom">

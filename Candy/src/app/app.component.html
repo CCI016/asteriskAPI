@@ -5,7 +5,7 @@
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
-    <div  [ngClass]="{ 'sidebar-logo' : !isCollapsed }">  
+    <div  [ngClass]="{'sidebar-logo' : !isCollapsed }">  
       <!-- Aici va trebui sa faci huineaua cand siderul se face mai mic pai sa nu scrie nihuia -->
       <span class="sidebar-text" *ngIf="!isCollapsed">Candy Shop<br>Unifun</span>
     </div>

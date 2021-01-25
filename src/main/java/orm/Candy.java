@@ -26,6 +26,9 @@ public class Candy  extends PanacheEntityBase {
 
     @Column(name = "is_deleted")
     public boolean isDeleted;
+
+    @Column(nullable = false)
+    public int numberOfPlays;
 }
 
 

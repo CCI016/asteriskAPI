@@ -20,6 +20,4 @@ public class Prompt  extends PanacheEntityBase {
     @Column(nullable = false)
     public String ariName;
 
-    @Column(nullable = false)
-    public int numberOfPlays;
 }

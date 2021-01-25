@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { WebRequestService } from 'src/app/web-request.service';
 import { Candy } from '../models/candy';
 import { Provider } from '../models/provider';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-candy',
@@ -11,7 +12,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./candy.component.css']
 })
 
-export class CandyComponent implements OnInit {
+export class CandyComponent implements OnInit, AfterViewInit {
   request : string;
   candy : Candy[];
   providers : Provider[];
@@ -22,8 +23,8 @@ export class CandyComponent implements OnInit {
   selectedService : number;
   showDelete : boolean;
   selectedSearchName : string;
-  itemsOnPage : number;
-
+  pageSize : number;
+  total : number;
 
   constructor(
     private webService : WebRequestService,
@@ -37,20 +38,33 @@ export class CandyComponent implements OnInit {
     this.previousProvider  = {} as Provider;
     this.request = "getCandy/list";
     this.selectedSearchName = "";
-    this.itemsOnPage = 10;
+    this.pageSize = 10;
+    this.total = 10;
   }
 
   ngOnInit(): void {
-    this.getAllCandy();
+    this.getTotal();
+    this.getAllCandy("", "", 1);
     this.getAllProviders();
   }
 
 
-  getAllCandy() {
+  ngAfterViewInit() {
+    this.getAllCandy("", "", 1);
+    this.getAllProviders();
+  }
+
+  getTotal() {
+    this.request ="getCandy/getTotal"
+    this.webService.getData(this.request).subscribe((data) => {this.total = <number> data; console.log(this.total)});
+  }
+
+  getAllCandy(sortField : string, sortOrder : string, pageIndex : number) {
     this.candy = [];
-    this.request = "getCandy/list";
+    this.request = "getCandy/list?pageIndex=" + pageIndex + "&sortField=" + sortField + "&pageSize=" + this.pageSize + "&sortingOrder=" + sortOrder;
     this.webService.getData(this.request).subscribe(data => {
      this.candy = <Candy[]> data;
+     console.log(this.candy);
     });
   }
 
@@ -71,11 +85,12 @@ export class CandyComponent implements OnInit {
       this.request += `${(candyName != "") ? ("name=" + candyName) : ""}`;
       this.request = this.andOperator(this.request, providerID);
       this.request += `${(providerID != null) ? ("provider=" + providerID) : ""}`;
+      this.webService.getData(this.request).subscribe(data => this.candy = <Candy[]> data);
     } else {
-      this.request = "getCandy/list";
+      this.getAllCandy("", "", 1);
     }
 
-    this.webService.getData(this.request).subscribe(data => this.candy = <Candy[]> data);
+   
   }
 
   andOperator(request : string, param : any) {
@@ -135,15 +150,13 @@ export class CandyComponent implements OnInit {
     });
   }
 
-
-  checkPagination() : boolean {
-    return true;
-  }
-
-  check() {
-    console.log(this.itemsOnPage);
-  }
-
-  sortName = (a: Candy, b: Candy) => a.name.localeCompare(b.name);
-  sortListened = (a : Candy, b : Candy) => a.prompt.numberOfPlays - b.prompt.numberOfPlays; 
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    const { pageSize, pageIndex, sort } = params;
+    const currentSort = sort.find((item) => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;
+    this.pageSize = pageSize;
+    console.log("page size: " + this.pageSize);
+    this.getAllCandy(sortField, sortOrder, pageIndex);
+}
 }

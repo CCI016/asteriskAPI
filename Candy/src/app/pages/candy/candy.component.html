@@ -22,21 +22,22 @@
     </nz-space-item>
 
     <nz-space-item>
-        <nz-table #basicTable [nzData]="candy" [nzPageSize] = "1" [nzFrontPagination]="true"  [nzTotal]="candy.length" nzHideOnSinglePage=true >
+        <nz-table #basicTable [nzData]="candy" [nzFrontPagination]="false"  [nzTotal]="total" [nzPageSize]="pageSize" nzShowSizeChanger
+            (nzQueryParams)="onQueryParamsChange($event)" [nzHideOnSinglePage]="true">
             <thead>
                 <tr>
-                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="sortName">Name</th>
+                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="true" nzColumnKey="name">Name</th>
                     <th nzAlign="center" class="reduced-padding">Prompt</th>
-                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="sortListened">Listened</th>
+                    <th nzAlign="center" class="reduced-padding" [nzSortFn]="true" nzColumnKey="numberOfPlays">Listened</th>
                     <th nzAlign="center" class="reduced-padding">Supplier</th>
                     <th nzAlign="center" class="reduced-padding">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let data of basicTable.data" (click) = "check()">
+                <tr *ngFor="let data of basicTable.data">
                     <td nzAlign="center">{{data.name}}</td>
                     <td nzAlign="center">{{data.prompt.originalName}}</td>
-                    <td nzAlign="center">{{data.prompt.numberOfPlays}}</td>
+                    <td nzAlign="center">{{data.numberOfPlays}}</td>
                     <td nzAlign="center">{{data.provider.name}}</td>
                     <td nzAlign="center">
                         <div nz-space nzAlign="center" class="space-align-block">

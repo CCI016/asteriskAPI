@@ -7,4 +7,5 @@ export interface Candy{
     prompt : Prompt;
     provider : Provider;
     isDeleted : boolean;
+    numberOfPlays : number;
 }

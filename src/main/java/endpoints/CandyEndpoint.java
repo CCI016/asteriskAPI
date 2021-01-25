@@ -3,6 +3,7 @@ package endpoints;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import orm.Candy;
 import orm.Prompt;
 import orm.Provider;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 @Path("/getCandy")
 @Produces(MediaType.TEXT_PLAIN)
@@ -27,10 +29,25 @@ public class CandyEndpoint {
     }
 
     @GET
+    @Path("getTotal")
+    public String getTotal() throws JsonProcessingException {
+        long count  = Candy.find("isDeleted = ?1" , false).count();
+        return mapper.writeValueAsString(count);
+    }
+
+    @GET
     @Path("list")
-    public String getAllCampaigns() throws JsonProcessingException {
-        List<Candy> candies = Candy.find("isDeleted = ?1", false).list();
-        return mapper.writeValueAsString(candies);
+    public String getAllCampaigns(@QueryParam("pageIndex") int pageIndex,
+                                  @QueryParam("sortField") String sortField, @QueryParam("pageSize") int pageSize,
+                                  @QueryParam("sortingOrder") String sortingOrder) throws JsonProcessingException {
+
+        String query = "";
+        if (sortField != null && !sortField.equals("null") && !sortField.equals("")) {
+            query = "ORDER BY " + sortField + " " + (sortingOrder.equals("ascend") ? "ASC" : "DESC");
+        }
+
+        PanacheQuery<Candy> candies = Candy.find("isDeleted = false " + query);
+        return mapper.writeValueAsString(candies.page(pageIndex - 1, 10).list());
     }
 
     @GET
@@ -46,7 +63,7 @@ public class CandyEndpoint {
         List<Candy> candies = null;
 
         if (name != null && provider == null) {
-            candies = Candy.find("name = ?1", name).list();
+            candies = Candy.find("name = ?1 and isDeleted = ?2", name, false).list();
         } else if (name == null && provider != null) {
             Provider provider1 = Provider.findById(Long.parseLong(provider));
             candies = Candy.find("provider = ?1", provider1).list();
@@ -129,14 +146,23 @@ public class CandyEndpoint {
             Provider provider = new Provider();
             provider.name = json.getString("providerName");
             provider.persist();
+            candy.provider = provider;
         }
 
         if (json.containsKey("promptID")) {
             candy.prompt = Prompt.findById(json.getJsonNumber("promptID").longValue());
         }
-        System.out.println(candy.id + " " + candy.name + " " + candy.provider + " " + candy.prompt);
         candy.isDeleted = false;
+        candy.numberOfPlays = 0;
         candy.persist();
+
         return mapper.writeValueAsString(candy);
+    }
+
+    @POST
+    @Path("upload")
+    @Consumes("multipart/form-data")
+    public void uploadFile(MultipartFormDataInput input) {
+
     }
 }
