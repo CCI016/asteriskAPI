@@ -95,6 +95,9 @@ public class UploadFileService {
 
     public String getAsterName(String filename) {
         List<Prompt> prompts = Prompt.find("ORDER BY id DESC").list();
+        if (prompts.size() == 0) {
+            return ("asteriskAPI" + 1 + filename.substring(filename.length() - 4));
+        }
         return ("asteriskAPI" + (prompts.get(0).id + 1) + filename.substring(filename.length() - 4));
     }
 

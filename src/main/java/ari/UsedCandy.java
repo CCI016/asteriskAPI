@@ -23,7 +23,8 @@ public class UsedCandy {
         List<Candy> candies = Candy.find("isDeleted = ?1", false).list();
         long count  = Candy.find("isDeleted = ?1" , false).count();
         int generatedLong = (int) (1 + (Math.random() * ((int)count - 1)));
-        return candies.get(generatedLong);
+        System.out.println(generatedLong);
+        return candies.get(generatedLong - 1);
     }
 
     public Candy getUsedCandy() {
