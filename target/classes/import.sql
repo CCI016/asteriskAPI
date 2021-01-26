@@ -14,8 +14,8 @@ VALUES
 INSERT INTO `prompt`
     (`id`, `ariName`, `originalName`)
 VALUES
-    ('1', 'prompt1', 'hello'),
-    ('2', 'prompt2', 'Nice');
+    ('1', 'hello-world', 'hello'),
+    ('2', 'hello-world', 'Nice');
 
 INSERT INTO `candy`
     (`id`, `is_deleted`, `name`, `prompt`, `provider`, `numberOfPlays`)

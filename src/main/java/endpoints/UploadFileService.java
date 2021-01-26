@@ -51,10 +51,9 @@ public class UploadFileService {
 
                 byte [] bytes = IOUtils.toByteArray(inputStream);
 
-                //constructs upload file path
-                asteriskFileName = soundsDirectory + asteriskFileName;
 
-                writeFile(bytes,asteriskFileName);
+
+                writeFile(bytes,soundsDirectory + asteriskFileName);
 
             } catch (IOException e) {
                 e.printStackTrace();
