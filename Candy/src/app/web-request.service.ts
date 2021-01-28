@@ -20,4 +20,7 @@ export class WebRequestService {
     return this.http.post(`${this.ROOT_URL}/${uri}`, t);
   }
 
+  test() {
+    console.log('test');
+  }
 }

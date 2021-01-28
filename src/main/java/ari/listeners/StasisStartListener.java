@@ -25,18 +25,19 @@ public class StasisStartListener implements EventListener{
 
     @Override
     public void onEvent(@Observes @AriEvent(eventType = "StasisStart") Message message) {
-        process(message);
+       ariManager.getThreadPoll().execute(() -> process(message));
     }
 
     @Override
     public void onFailedEvent(RestException e) {
-
+        System.out.println("HZ de ce dar intra aici");
     }
 
     private void process(Message message)  {
         StasisStart event = (StasisStart) message;
         Candy candy = usedCandy.init();
-        Prompt prompt = candy.prompt;
+        usedCandy.setChanel(event.getChannel());
+        Prompt prompt;
         ActionChannels channels = null;
         try {
             channels = ariManager.getAri().getActionImpl(ActionChannels.class);
@@ -44,10 +45,21 @@ public class StasisStartListener implements EventListener{
             e.printStackTrace();
         }
         try {
-            System.out.println(prompt.ariName);
-            channels.play(event.getChannel().getId(), "sound:" + prompt.ariName.split("\\.")[0], "", 0, 0, "");
-        } catch (RestException e) {
-            e.printStackTrace();
+            if (candy != null) {
+                prompt = candy.prompt;
+                System.out.println(prompt.ariName);
+                channels.play(usedCandy.getChanel().getId(), "sound:" + prompt.ariName.split("\\.")[0], "", 0, 0, "");
+            } else {
+                throw new Exception("Exception message");
+            }
+        } catch (Exception e) {
+            System.out.println("Couldn't play prompt");
+            try {
+                channels.continueInDialplan(usedCandy.getChanel().getId(), usedCandy.getChanel().getDialplan().getContext(),
+                        usedCandy.getChanel().getDialplan().getExten(),1, "hangup");
+            } catch (RestException err) {
+                System.out.println("Hangup denied");
+            }
         }
     }
 

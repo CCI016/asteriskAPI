@@ -47,7 +47,7 @@ public class CandyEndpoint {
         }
 
         PanacheQuery<Candy> candies = Candy.find("isDeleted = false " + query);
-        return mapper.writeValueAsString(candies.page(pageIndex - 1, 10).list());
+        return mapper.writeValueAsString(candies.page(pageIndex - 1, pageSize).list());
     }
 
     @GET
@@ -66,10 +66,10 @@ public class CandyEndpoint {
             candies = Candy.find("name = ?1 and isDeleted = ?2", name, false).list();
         } else if (name == null && provider != null) {
             Provider provider1 = Provider.findById(Long.parseLong(provider));
-            candies = Candy.find("provider = ?1", provider1).list();
+            candies = Candy.find("provider = ?1 and isDeleted = ?2", provider1, false).list();
         } else if (name != null) {
             Provider provider1 = Provider.findById(Long.parseLong(provider));
-            candies = Candy.find("name = ?1 and provider = ?2", name, provider1).list();
+            candies = Candy.find("name = ?1 and provider = ?2 and isDeleted = ?2", name, provider1, false).list();
         }
 
         if (candies == null) {
@@ -109,6 +109,9 @@ public class CandyEndpoint {
         if (json.containsKey("provider")) {
             candy.provider = Provider.findById(json.getJsonNumber("provider").longValue());
             System.out.println(candy.provider.name);
+        }
+        if (json.containsKey("prompt")) {
+            candy.prompt = Prompt.findById(json.getJsonNumber("prompt").longValue());
         }
         candy.persist();
         return mapper.writeValueAsString(candy);
@@ -159,10 +162,4 @@ public class CandyEndpoint {
         return mapper.writeValueAsString(candy);
     }
 
-    @POST
-    @Path("upload")
-    @Consumes("multipart/form-data")
-    public void uploadFile(MultipartFormDataInput input) {
-
-    }
 }

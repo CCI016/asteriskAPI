@@ -60,12 +60,13 @@ public class UploadFileService {
             }
 
         }
+
         Prompt prompt = new Prompt();
         prompt.ariName = asteriskFileName;
         prompt.originalName = fileName;
         prompt.persist();
-        return Response.status(200)
-                .entity("uploadFile is called, Uploaded file name : " + fileName).build();
+
+        return Response.status(200).build();
 
     }
 

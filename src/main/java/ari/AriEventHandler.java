@@ -9,6 +9,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @ApplicationScoped
 public class AriEventHandler implements AriCallback<Message> {
@@ -20,8 +22,6 @@ public class AriEventHandler implements AriCallback<Message> {
     @Override
     public void onSuccess(Message message) {
         System.out.println(message.getClass().getSimpleName().split("_")[0].trim());
-
-//        event.fire((message.getClass().getSimpleName().split("_")[0].trim()));
         event.select(new AriEventBinding() {
             private static final long serialVersionUID = -8285796201390337743L;
 
@@ -36,4 +36,6 @@ public class AriEventHandler implements AriCallback<Message> {
     public void onFailure(RestException e) {
         logger.info("No bene");
     }
+
+
 }

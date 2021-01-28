@@ -117,7 +117,6 @@
     <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.49.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.49.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.49.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.49.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-http2:4.1.49.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.49.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.49.Final" level="project" />
@@ -231,5 +230,15 @@
     <orderEntry type="library" name="Maven: org.apache.james:apache-mime4j-storage:0.8.3" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.4.1.Final" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.microprofile.config:microprofile-config-api:1.4" level="project" />
+    <orderEntry type="library" name="Maven: io.quarkus:quarkus-undertow-websockets:1.10.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.quarkus:quarkus-undertow:1.10.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.quarkus.http:quarkus-http-servlet:3.0.16.Final" level="project" />
+    <orderEntry type="library" name="Maven: jakarta.servlet:jakarta.servlet-api:4.0.3" level="project" />
+    <orderEntry type="library" name="Maven: io.quarkus.http:quarkus-http-vertx-backend:3.0.16.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.quarkus.http:quarkus-http-http-core:3.0.16.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.quarkus.http:quarkus-http-core:3.0.16.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.49.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.quarkus.http:quarkus-http-websockets-jsr:3.0.16.Final" level="project" />
+    <orderEntry type="library" name="Maven: jakarta.websocket:jakarta.websocket-api:1.1.2" level="project" />
   </component>
 </module>

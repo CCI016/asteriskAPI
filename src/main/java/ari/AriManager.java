@@ -19,6 +19,8 @@ import org.jboss.logging.Logger;
 import ch.loway.oss.ari4java.ARI;
 
 import java.net.URISyntaxException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @ApplicationScoped
 public class AriManager {
@@ -27,6 +29,12 @@ public class AriManager {
 
     private static final Logger logger = Logger.getLogger("ListenerBean");
     private ARI ari;
+    private ExecutorService threadPoll;
+
+    public AriManager() {
+        this.threadPoll = Executors.newCachedThreadPool();
+    }
+
 
     void init(@Observes StartupEvent e) {
         AriSettings ariSettings = AriSettings.findById((long)1); //Small project -> Only one connection is needed
@@ -91,6 +99,14 @@ public class AriManager {
 
     public ARI getAri() {
         return ari;
+    }
+
+    public ExecutorService getThreadPoll() {
+        return threadPoll;
+    }
+
+    public void setThreadPoll(ExecutorService threadPoll) {
+        this.threadPoll = threadPoll;
     }
 }
 

@@ -37,14 +37,14 @@ export class AddCandyComponent implements OnInit {
   }
 
   getAllProviders() {
-    this.providers = [];
+    // this.providers = [];
     this.request = "getCandy/providers";
     this.webService.getData(this.request).subscribe(data => this.providers = <Provider[]> data);
     console.log(this.request);
   }
   
   getAllPrompts() {
-    this.propmpts = [];
+    // this.propmpts = [];
     this.request = "getCandy/prompts";
     this.webService.getData(this.request).subscribe(data => this.propmpts = <Prompt[]> data);
     console.log(this.request);

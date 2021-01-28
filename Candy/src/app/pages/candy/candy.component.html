@@ -22,7 +22,7 @@
     </nz-space-item>
 
     <nz-space-item>
-        <nz-table #basicTable [nzData]="candy" [nzFrontPagination]="false"  [nzTotal]="total" [nzPageSize]="pageSize" nzShowSizeChanger
+        <nz-table #basicTable [nzData]="candy" [nzFrontPagination]="false"  [nzTotal]="(total + pageSize - 1) / pageSize" [nzPageSize]="pageSize" nzShowSizeChanger
             (nzQueryParams)="onQueryParamsChange($event)" [nzHideOnSinglePage]="true">
             <thead>
                 <tr>
@@ -66,7 +66,7 @@
             <span><b>New Name:<br></b></span>
             <input type="text" nz-input [(ngModel)]="previousName" />
         </div>
-        <div nz-col nzSpan="5" nzOffset="1" nzAlign="bottom">
+        <div nz-col nzSpan="2" nzOffset="1" nzAlign="bottom">
             <span><br></span>
 
             <nz-select [(ngModel)]="previousProvider.id">
@@ -75,7 +75,17 @@
             <!-- <nz-select [(ngModel)]="previousProvider.id" [nzOptions] = "providers"></nz-select> -->
 
         </div>
-        <div nz-col nzSpan="1" nzOffset="10" nzAlign="bottom">
+
+        <div nz-col nzSpan="2" nzOffset="1" nzAlign="bottom">
+            <span><br></span>
+
+            <nz-select [(ngModel)]="previuosPrompt.id">
+                <nz-option *ngFor="let option of prompts" [nzValue]="option.id" [nzLabel]="option.originalName"></nz-option>
+            </nz-select>
+
+        </div>
+
+        <div nz-col nzSpan="1" nzOffset="9" nzAlign="bottom">
             <span><br></span>
             <button nz-button nzType="primary" (click)="submitEdit(previousName, previousProvider.id, editedCandy.id)">
                 Submit
@@ -89,3 +99,9 @@
         </div>
     </div>
 </nz-drawer>
+<div (onclick)="this.webService.test()">
+test
+</div>
+<div onclick="console.log('test2')">
+    test2
+    </div>

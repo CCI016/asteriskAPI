@@ -5,6 +5,7 @@ import { Provider } from '../models/provider';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Prompt } from '../models/prompt';
 
 @Component({
   selector: 'app-candy',
@@ -25,9 +26,11 @@ export class CandyComponent implements OnInit, AfterViewInit {
   selectedSearchName : string;
   pageSize : number;
   total : number;
+  previuosPrompt : Prompt;
+  prompts : Prompt[];
 
   constructor(
-    private webService : WebRequestService,
+    public webService : WebRequestService,
     private modal: NzModalService,
     private notification: NzNotificationService,) {
     this.editedCandy = {} as Candy;
@@ -38,14 +41,19 @@ export class CandyComponent implements OnInit, AfterViewInit {
     this.previousProvider  = {} as Provider;
     this.request = "getCandy/list";
     this.selectedSearchName = "";
-    this.pageSize = 10;
+    this.pageSize = 1;
     this.total = 10;
+    this.previuosPrompt = {} as Prompt;
+    this.prompts = [];
+
   }
 
   ngOnInit(): void {
     this.getTotal();
     this.getAllCandy("", "", 1);
     this.getAllProviders();
+    this.getAllPrompts();
+    this.webService.test();
   }
 
 
@@ -56,11 +64,11 @@ export class CandyComponent implements OnInit, AfterViewInit {
 
   getTotal() {
     this.request ="getCandy/getTotal"
-    this.webService.getData(this.request).subscribe((data) => {this.total = <number> data; console.log(this.total)});
+    this.webService.getData(this.request).subscribe((data) => {this.total = <number> data});
   }
 
   getAllCandy(sortField : string, sortOrder : string, pageIndex : number) {
-    this.candy = [];
+    // this.candy = [];
     this.request = "getCandy/list?pageIndex=" + pageIndex + "&sortField=" + sortField + "&pageSize=" + this.pageSize + "&sortingOrder=" + sortOrder;
     this.webService.getData(this.request).subscribe(data => {
      this.candy = <Candy[]> data;
@@ -69,19 +77,26 @@ export class CandyComponent implements OnInit, AfterViewInit {
   }
 
   getAllProviders() {
-    this.providers = [];
+    // this.providers = [];
     this.request = "getCandy/providers";
     this.webService.getData(this.request).subscribe(data => this.providers = <Provider[]> data);
     console.log(this.request);
   }
 
+  getAllPrompts() {
+    this.request = "getCandy/prompts"
+    this.webService.getData(this.request).subscribe(data => {
+      // this.prompts = [];
+      this.prompts = <Prompt[]> data;
+    })
+  }
+
   getNewData(providerID : number, candyName : string) {
-    this.candy = [];
+    // this.candy = [];
     this.request = "getCandy/filterByNameAndProvider";
 
     if (providerID != null || candyName != "") {
       this.request += "?";
-
       this.request += `${(candyName != "") ? ("name=" + candyName) : ""}`;
       this.request = this.andOperator(this.request, providerID);
       this.request += `${(providerID != null) ? ("provider=" + providerID) : ""}`;
@@ -108,14 +123,15 @@ export class CandyComponent implements OnInit, AfterViewInit {
     this.editedCandy = candyElem;
     this.previousProvider = candyElem.provider;
     this.previousName = candyElem.name;
+    this.previuosPrompt = candyElem.prompt;
     this.visible = true;
   }
 
   submitEdit(newName : string, newProviderID : number, candyID : number) {
     this.request = "getCandy/updateCandy"
-    var send : {id : number; name : string; provider : number;}
+    var send : {id : number; name : string; provider : number; prompt : number}
     var status = {} as Candy;
-    send = {id : candyID, name : newName,provider : newProviderID};
+    send = {id : candyID, name : newName,provider : newProviderID, prompt : this.previuosPrompt.id};
     this.webService.postData(this.request, send).subscribe((data) => {
        status = <Candy> data;
        this.getNewData(this.selectedService, this.selectedSearchName);;});
@@ -145,6 +161,7 @@ export class CandyComponent implements OnInit, AfterViewInit {
            )
          }
          this.getNewData(this.selectedService, this.selectedSearchName);
+         this.getTotal();
         })
       }
     });
@@ -158,5 +175,7 @@ export class CandyComponent implements OnInit, AfterViewInit {
     this.pageSize = pageSize;
     console.log("page size: " + this.pageSize);
     this.getAllCandy(sortField, sortOrder, pageIndex);
-}
+  }
+
+
 }
