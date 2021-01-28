@@ -1,0 +1,46 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div  [ngClass]="{'sidebar-logo' : !isCollapsed }">  
+      <!-- Aici va trebui sa faci huineaua cand siderul se face mai mic pai sa nu scrie nihuia -->
+      <span class="sidebar-text" *ngIf="!isCollapsed">Candy Shop<br>Unifun</span>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-item>
+        <a routerLink="/candy">
+          <i nz-icon nzType="sound"></i>
+          <span>Candy</span>
+        </a>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div nz-row>
+        <div nz-col nzSpan="12">
+        </div>
+        <div nz-col nzSpan="12">
+          <span class="timer">Time: {{time}}</span>
+        </div>
+      </div>
+
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

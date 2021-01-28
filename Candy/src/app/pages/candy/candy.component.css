@@ -1,0 +1,22 @@
+.space {
+  width: 100%
+}
+.search-area {
+    float:left;
+    margin-right: 2%;
+    width: 25%;
+  }
+  
+  .supplier-select {
+    float:left;
+    width: 20%;
+  }
+  
+  .add-candy {
+    float:right
+  }
+
+  .reduced-padding {
+    padding: 16px 8px 16px 8px;
+  }
+  
